@@ -50,15 +50,18 @@
 		pmai_repeater_clone($parent);
 
 	});
-	
-	$('.add_layout select').live('click', function(){
 
-		if ($(this).val() == "") return;
+	$('.add_layout_button').live('click', function(){
 
 		var $parent = $(this).parents('.acf-flexible-content:first');
-		var $clone = $parent.children('.clones:first').children('div.layout[data-layout = ' + $(this).val() + ']').clone();
-		
-		var $number = parseInt($parent.children('.values:first').children().length) + 1;	
+
+		var $dropdown = $parent.children('.add_layout').children('select'); //$('.add_layout select');
+
+		if ($dropdown.val() == "" || $dropdown.val() == "Select Layout") return;
+
+		var $clone = $parent.children('.clones:first').children('div.layout[data-layout = ' + $dropdown.val() + ']').clone();
+
+		var $number = parseInt($parent.children('.values:first').children().length) + 1;
 
 		$clone.find('.fc-layout-order:first').html($number);
 
@@ -76,11 +79,13 @@
 			if (name != undefined) $(this).attr({'name':$(this).attr('name').replace('ROWNUMBER', $number)});
 		});
 
-		$parent.find('.values:first').append($clone);
+		pmai_init($clone);
+
+		$parent.children('div.values:first').append($clone);
 
 	});
 
-	$('.delete_layout').live('click', function(){
+	$('.delete_layout_button').live('click', function(){
 
 		var $parent = $(this).parents('.acf-flexible-content:first');
 
